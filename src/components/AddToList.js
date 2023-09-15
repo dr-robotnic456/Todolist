@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AddToList = ({ handleShowModal }) => {
     const [todoData, setTodoData] = useState({
-        todoId:uuidv4,
+        todoId:uuidv4(),
         todoTitle: "",
         todoDate: "",
         todoTime: ""
@@ -21,14 +21,14 @@ const AddToList = ({ handleShowModal }) => {
         });
     };
 
-    const updateTodo = () => {
-        dispatch(updateTodo(todoData))
-    }
-
-    const handleSubmit = async (e) => {
+        const handleSubmit = async (e) => {
         e.preventDefault();
 
         dispatch(addTodo(todoData))
+
+        console.log(todoData)
+
+        handleShowModal()
     }
     return (
         <div className=' bg-black bg-opacity-75 fixed inset-0 flex items-center z-0'>

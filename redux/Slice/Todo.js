@@ -1,12 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    todos:[{
-        todoTitle:"",
-        todoDate:"",
-        todoTime:"",
-        todoId:""
-    }
+    todos:[
     ]
 }
 const TodoSlice = createSlice({
@@ -29,8 +24,8 @@ const TodoSlice = createSlice({
         },
 
         removeTodo:(state, action) => {
-            const todoIndex = action.payload
-            state.todos = state.todos.filter((todo) => todo.id !== todoIndex)
+            const todoId = action.payload
+            state.todos = state.todos.filter((todo) => todo.todoId !== todoId)
         }
     }
 })

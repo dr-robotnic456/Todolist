@@ -3,24 +3,33 @@ import React, { useState } from 'react'
 import { BsTrashFill } from "react-icons/bs"
 import { BiEdit } from "react-icons/bi"
 import { useDispatch, useSelector } from 'react-redux'
-import { removeTodo } from '../../redux/Slice/Todo'
+import { removeTodo, updateTodo } from '../../redux/Slice/Todo'
+import UpdateTodo from '@/components/UpdateTodo'
 
 const Todo = () => {
     const [showModal, setShowModal] = useState(false)
+    const [showUpdateTodo, setShowUpdateTodo] = useState(false)
+    const [selectedTodoId, setSelectedTodoId] = useState(null)
     const handleShowModal = () => {
         setShowModal(!showModal)
+    }
+    const handleShowUpdateTodo = (todoId) => {
+        setShowUpdateTodo(!showUpdateTodo)
+        setSelectedTodoId(todoId)
     }
 
     const todoList = useSelector((state) => state.todo.todos)
     const dispatch = useDispatch()
 
-    const deleteTodo = () => {
-        dispatch(removeTodo())
+    const deleteTodo = (todoId) => {
+        dispatch(removeTodo(todoId))
+
     }
     
     return (
         <div className='flex items-center justify-center h-screen'>
             {showModal && (<AddToList handleShowModal={handleShowModal} />)}
+            {showUpdateTodo && (<UpdateTodo handleShowUpdateTodo={handleShowUpdateTodo} selectedTodoId={selectedTodoId}/>)}
             <div className='w-[400px] bg-[#f1f1f1] rounded-lg px-10 py-5 max-h-[600px] overflow-y-auto'>
                 <div className='flex items-center text-slate-500 justify-between w-full border-b-2 border-slate-500'>
                     <h2>My Todo List</h2>
@@ -42,8 +51,8 @@ const Todo = () => {
                                 {todo.todoTime}
                             </div>
                             <div className='text-slate-500 cursor-pointer space-x-3 flex'>
-                                <BiEdit size={18} role='button' className='hover:text-blue-500' />
-                                <BsTrashFill size={18} role='button' className='hover:text-red-500' onClick={deleteTodo}/>
+                                <BiEdit size={18} role='button' className='hover:text-blue-500' onClick={() => setShowUpdateTodo(true)}/>
+                                <BsTrashFill size={18} role='button' className='hover:text-red-500' onClick={() => deleteTodo(todo.todoId)}/>
                             </div>
                         </li>
                     </ul>
